@@ -2,28 +2,30 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 11 Sep 2018 02:48:28 +0000.
+ * Date: Fri, 14 Sep 2018 05:42:27 +0000.
  */
 
 namespace App\Modules\Wdb\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
-
 /**
- * App\Modules\Wdb\Models\WdbMenu
+ * Class WdbMenu
  *
  * @property int $id
- * @property string|null $name 名称
- * @property string|null $url 链接
- * @property string|null $title 名称
- * @property int $side 层级
+ * @property string $name
+ * @property int $order
+ * @property string $url
+ * @property string $title
+ * @property int $side
  * @property int $parent_id
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @package App\Models
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbMenu whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbMenu whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbMenu whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbMenu whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbMenu whereParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbMenu whereSide($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbMenu whereTitle($value)
@@ -36,13 +38,17 @@ class WdbMenu extends Eloquent
 	protected $table = 'wdb_menu';
 	protected $primaryKey = 'id';
 
+	const SIDE_MENU = 0;
+
 	protected $casts = [
+		'order' => 'int',
 		'side' => 'int',
 		'parent_id' => 'int'
 	];
 
 	protected $fillable = [
 		'name',
+		'order',
 		'url',
 		'title',
 		'side',

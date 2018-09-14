@@ -24,6 +24,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbRole whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbRole whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\Wdb\Models\WdbUserRole[] $role_user
  */
 class WdbRole extends Eloquent
 {
@@ -34,4 +35,9 @@ class WdbRole extends Eloquent
 		'name',
 		'describe'
 	];
+
+    public function role_user()
+    {
+        return $this->hasMany(WdbUserRole::class,'role_id','id');
+    }
 }

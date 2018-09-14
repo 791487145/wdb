@@ -24,6 +24,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbDapartment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbDapartment whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $parent_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbDapartment whereParentId($value)
  */
 class WdbDapartment extends Eloquent
 {
@@ -34,4 +36,9 @@ class WdbDapartment extends Eloquent
 		'department_name',
 		'describe'
 	];
+
+	public function department_user_med()
+    {
+        return $this->hasMany(WdbUserDepartment::class,'department_id','id');
+    }
 }

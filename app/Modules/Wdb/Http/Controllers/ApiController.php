@@ -9,6 +9,8 @@ class ApiController extends BaiscController
 {
     public $limit = 10;
 
+    public $admin = 1;
+
     public $successStatus = 200;
     public $errorStatus = 201;
     public $unauthized = 403;

@@ -63,7 +63,7 @@ class ManageController extends WdbController
      */
     public function userCreate(Request $request)
     {
-        DB::transaction(function () use($request,$request){
+        DB::transaction(function () use($request){
             $wdbUser = new WdbUser();
             $wdbUser->name = $request->post('name','');
             $wdbUser->mobile = $request->post('mobile');

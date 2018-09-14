@@ -32,6 +32,26 @@ Route::prefix('wdb/manage')->group(function () {
             Route::post('role/assignPermission', 'RoleController@assignPermission')->name('assignPermission');
             Route::post('role/permissionList', 'RoleController@permissionList')->name('permissionList');
 
+            Route::post('permission', 'PermissionController@permissionList')->name('permission');
+            //Route::post('permission/create', 'PermissionController@permissionCreate')->name('permissionCreate');
+            //Route::post('permission/delete', 'PermissionController@permissionDelete')->name('permissionDelete');
+            Route::post('permission/info', 'PermissionController@permissionInfo')->name('permissionInfo');
+            Route::post('permission/update', 'PermissionController@permissionUpdate')->name('permissionUpdate');
+
+
+            Route::post('set/department', 'SettingController@departmentList')->name('department');
+            Route::post('set/department/create', 'SettingController@departmentCreate')->name('departmentCreate');
+            Route::post('set/department/delete', 'ManageController@departmentDelete')->name('departmentDelete');
+            Route::post('set/department/info', 'SettingController@departmentInfo')->name('departmentInfo');
+            Route::post('set/department/update', 'SettingController@departmentUpdate')->name('departmentUpdate');
+
+            Route::post('shop', 'SettingController@shopList')->name('shop');
+            Route::post('shop/create', 'SettingController@shopCreate')->name('shopCreate');
+            Route::post('shop/delete', 'ManageController@shopDelete')->name('shopDelete');
+            Route::post('shop/info', 'SettingController@shopInfo')->name('shopInfo');
+            Route::post('shop/update', 'SettingController@shopUpdate')->name('shopUpdate');
+
+
         });
 
 });
