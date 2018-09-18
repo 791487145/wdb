@@ -45,11 +45,18 @@ Route::prefix('wdb/manage')->group(function () {
             Route::post('set/department/info', 'SettingController@departmentInfo')->name('departmentInfo');
             Route::post('set/department/update', 'SettingController@departmentUpdate')->name('departmentUpdate');
 
-            Route::post('shop', 'SettingController@shopList')->name('shop');
-            Route::post('shop/create', 'SettingController@shopCreate')->name('shopCreate');
-            Route::post('shop/delete', 'ManageController@shopDelete')->name('shopDelete');
-            Route::post('shop/info', 'SettingController@shopInfo')->name('shopInfo');
-            Route::post('shop/update', 'SettingController@shopUpdate')->name('shopUpdate');
+            Route::post('set/regision', 'SettingController@regisionList')->name('regision');
+            Route::post('set/regision/create', 'SettingController@regisionCreate')->name('regisionCreate');
+            Route::post('set/regision/delete', 'ManageController@regisionDelete')->name('regisionDelete');
+            Route::post('set/regision/info', 'SettingController@regisionInfo')->name('regisionInfo');
+            Route::post('set/regision/update', 'SettingController@regisionUpdate')->name('regisionUpdate');
+
+            Route::post('shop', 'ShopController@shopList')->name('shop');
+            Route::post('shop/create', 'ShopController@shopCreate')->name('shopCreate');
+            Route::post('shop/delete', 'ShopController@shopDelete')->name('shopDelete');
+            Route::post('shop/info', 'ShopController@shopInfo')->name('shopInfo');
+            Route::post('shop/update', 'ShopController@shopUpdate')->name('shopUpdate');
+
 
 
         });

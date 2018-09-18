@@ -26,6 +26,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @mixin \Eloquent
  * @property int|null $parent_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbDapartment whereParentId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\Wdb\Models\WdbUserDepartment[] $department_user_med
  */
 class WdbDapartment extends Eloquent
 {
