@@ -4,14 +4,17 @@ namespace App\Modules\Wdb\Http\Controllers\Manage;
 
 use App\Modules\Wdb\Http\Controllers\WdbController;
 use App\Modules\Wdb\Models\ConfCity;
+use App\Modules\Wdb\Models\WdbGood;
 use App\Modules\Wdb\Models\WdbMenu;
 use App\Modules\Wdb\Models\WdbRegisionManageShop;
 use App\Modules\Wdb\Models\WdbShop;
+use App\Modules\Wdb\Models\WdbShopGood;
 use App\Modules\Wdb\Models\WdbUserShop;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Excel;
 
 class ShopController extends WdbController
 {
@@ -78,10 +81,11 @@ class ShopController extends WdbController
                 'address' => $request->post('address')
             );
             $district['district'] = ConfCity::getName($district['province']).ConfCity::getName($district['city']).ConfCity::getName($district['region']).$district['address'];
-
+            $lon_lati = file_get_contents('http://api.map.baidu.com/geocoder/v2/?address='.$district['district'].'&output=json&ak='.$this->ak);
+            $lon_lati = json_decode($lon_lati,true);
             $shop->district = json_encode($district);
             $shop->logo = $request->post('logo');
-            $shop->lon_lati = '2342';
+            $shop->lon_lati = json_encode($lon_lati['location']);
             $shop->save();
 
             $shop->assignUser($request->post('user_id'));
@@ -161,14 +165,192 @@ class ShopController extends WdbController
             'address' => $request->post('address')
         );
         $district['district'] = ConfCity::getName($district['province']).ConfCity::getName($district['city']).ConfCity::getName($district['region']).$district['address'];
+        $lon_lati = file_get_contents('http://api.map.baidu.com/geocoder/v2/?address='.$district['district'].'&output=json&ak='.$this->ak);
+        $lon_lati = json_decode($lon_lati,true);
         $data['district'] = $district;
-        $data['lon_lati'] = '2342';
+        $data['lon_lati'] = json_encode($lon_lati['location']);
 
         $shop->update($data);
         $shop->assignUser($request->post('user_id'));
         $shop->assignRegision($request->post('regision_id'));
 
         return $this->formatResponse('修改完成',$this->successStatus);
+    }
+
+    /**
+     * 门店商品列表
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function goodsList(Request $request)
+    {
+        $shop = WdbShop::orderBy('id','asc')->first();
+        $shop_id = $request->post('shop_id',$shop->id);
+
+        $wdbShopGood = new WdbShopGood();
+        $status = $request->post('good_status','');
+        if(!empty($status)){
+            $wdbShopGood = $wdbShopGood->whereStatus($status);
+        }
+        $price_low = $request->post('good_price_low',0);
+        if(!empty($price_low)){
+            $wdbShopGood = $wdbShopGood->where('price','>=',$price_low);
+        }
+        $price_up = $request->post('good_price_up',0);
+        if(!empty($price_up)){
+            $wdbShopGood = $wdbShopGood->where('price','<=',$price_up);
+        }
+
+        $goods_id = $wdbShopGood::whereShopId($shop_id)->pluck('good_id');
+
+        $goods = new  WdbGood();
+        $goods = $goods->whereIn('id',$goods_id);
+        $goods = WdbGood::goods($request,$goods);
+
+        foreach ($goods as $good){
+            $shop_good = WdbShopGood::whereShopId($shop_id)->whereGoodId($good->id)->first();
+            $good->status_name = WdbShopGood::statusCN($shop_good->status);
+            $good->status = $shop_good->status;
+            $good->sale_num = $shop_good->sale_num;
+        }
+
+        $data = array(
+            'count' => count($goods),
+            'goods' => $goods
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
+    }
+
+    /**
+     * 门店商品推荐状态
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function goodsRecommend(Request $request)
+    {
+        WdbShopGood::whereShopId($request->post('shop_id'))->whereGoodId($request->post('good_id'))->update(['is_recomment' => $request->post('is_recomment')]);
+        return $this->formatResponse('修改成功');
+    }
+
+    /**
+     * 门店商品状态
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function goodsStatus(Request $request)
+    {
+        WdbShopGood::whereShopId($request->post('shop_id'))->whereGoodId($request->post('good_id'))->update(['status' => $request->post('status')]);
+        return $this->formatResponse('修改成功');
+    }
+
+    /**
+     * 门店商品详情
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function shopGoodInfo(Request $request)
+    {
+        $shop_good = WdbShopGood::whereShopId($request->post('shop_id'))->whereGoodId($request->post('good_id'))->first();
+        $shop_good->goods = WdbGood::whereId($request->post('good_id'))->select('name','goods_no','thumbnail_pic','goods_detail')->first();
+        return $this->formatResponse('获取成功',$this->successStatus,$shop_good);
+    }
+
+    /**
+     * 门店商品修改
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function goodUpdate(Request $request)
+    {
+        $param = array(
+            'price' => $request->post('price'),
+            'is_recomment' => $request->post('is_recomment'),
+            'status' => $request->post('status')
+        );
+        WdbShopGood::whereShopId($request->post('shop_id'))->whereGoodId($request->post('good_id'))->update($param);
+        return $this->formatResponse('修改成功');
+     }
+
+    /**
+     * 门店关联商品
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+     public function shopAssignGoods(Request $request)
+     {
+         $action = $request->post('action','all');
+         $shop_id = $request->post('shop_id');
+         if($action == 'all'){
+             $good_ids = WdbGood::pluck('id');
+         }else{
+             $good_ids = explode(",",$request->post('good_id'));
+         }
+
+         $goods = WdbGood::whereIn('id',$good_ids)->select('id','price')->get();
+         foreach ($goods as $good){
+             $shop_good = WdbShopGood::whereShopId($shop_id)->whereGoodId($good->id)->first();
+             if(is_null($shop_good)){
+                 $param = array(
+                     'good_id' => $good->id,
+                     'shop_id' => $shop_id,
+                     'status' => WdbShopGood::STATUS_DOWN,
+                     'price' => $good->price,
+                     'sale_num' => $this->pub,
+                     'is_recomment' => WdbShopGood::IS_NOT_RECOMMENT
+                 );
+                 WdbShopGood::create($param);
+             }
+         }
+
+         return $this->formatResponse('添加成功');
+     }
+
+    public function aaa(Request $request)
+    {
+        $file_path = 'test/232.xls';
+        Excel::selectSheets('Sheet1')->load($file_path, function($reader) use($request) {
+
+
+                $data = $reader->noHeading()->all();
+                dd($data);
+
+        });
+    }
+
+    public function bbb(Request $request)
+    {
+        $cellData = [
+            ['商品名称','数量','单价','总价'],
+            ['太原-大连火车票','20','101.21','2024.2'],
+            ['招牌手撕鸡','6','10','60'],
+            ['太原-厦门飞机票','7','1000','7000']
+        ];
+        $a = mb_detect_encoding(json_encode($cellData,JSON_UNESCAPED_UNICODE), array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+
+        Excel::create('导入账单格式demo',function($excel) use ($cellData){
+            $excel->sheet('score', function($sheet) use ($cellData){
+                $sheet->setWidth('A', 40);
+
+                foreach ($cellData as $i=>$val)
+                {
+                    //dd($val);
+                    $sheet->setWidth('A', 40);
+                    if($i == 3){
+                        $sheet->rows(array($val))->setMergeColumn(array(
+                            'columns' => array('A'),
+                            'rows' => array(
+                                array(4,5),
+                            )
+                        ));
+                    }else{
+                        $sheet->rows(array($val));
+                    }
+                }
+
+
+                //$sheet;
+            });
+        })->export('xls');
     }
 
 

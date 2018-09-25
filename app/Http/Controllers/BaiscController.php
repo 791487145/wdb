@@ -9,5 +9,5 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BaiscController extends Controller
 {
-
+    public $ak = 'KADZm4hhpiFooUUZsQYYzUeIEacKInHK';
 }

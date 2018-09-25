@@ -57,8 +57,30 @@ Route::prefix('wdb/manage')->group(function () {
             Route::post('shop/info', 'ShopController@shopInfo')->name('shopInfo');
             Route::post('shop/update', 'ShopController@shopUpdate')->name('shopUpdate');
 
+            Route::post('shop/good', 'ShopController@goodsList')->name('shopGoods');
+            Route::post('shop/good/recommend', 'ShopController@goodsRecommend')->name('goodsRecommend');
+            Route::post('shop/good/status', 'ShopController@goodsStatus')->name('shopGoodStatus');
+            Route::post('shop/good/info', 'ShopController@goodInfo')->name('shopGoodInfo');
+            Route::post('shop/good/update', 'ShopController@goodUpdate')->name('shopGoodUpdate');
+            Route::post('shop/good/assignGoods', 'ShopController@shopAssignGoods')->name('shopAssignGoods');
 
 
+            Route::post('goods', 'GoodsController@goodsList')->name('goods');
+            Route::post('goods/create', 'GoodsController@goodsCreate')->name('goodsCreate');
+            Route::post('goods/status', 'GoodsController@goodsStatus')->name('goodsStatus');
+            Route::post('goods/info', 'GoodsController@goodsInfo')->name('goodsInfo');
+            Route::post('goods/update', 'GoodsController@goodsUpdate')->name('goodsUpdate');
+
+            Route::post('goods/category', 'GoodsController@categoryList')->name('category');
+            Route::post('goods/category/create', 'GoodsController@categoryCreate')->name('categoryCreate');
+            Route::post('goods/category/delete', 'GoodsController@categoryDelete')->name('categoryDelete');
+            Route::post('goods/category/info', 'GoodsController@categoryInfo')->name('categoryInfo');
+            Route::post('goods/category/update', 'GoodsController@categoryUpdate')->name('categoryUpdate');
+
+
+            Route::post('aaa', 'ShopController@aaa')->name('aaa');
+            Route::get('bbb', 'ShopController@bbb')->name('bbb');
+            Route::post('test', 'TestController@test')->name('test');
         });
 
 });
