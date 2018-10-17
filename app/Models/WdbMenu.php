@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 25 Sep 2018 07:56:22 +0000.
+ * Date: Wed, 17 Oct 2018 09:13:44 +0000.
  */
 
 namespace App\Models;
@@ -17,7 +17,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $order
  * @property string $url
  * @property string $title
- * @property int $side
+ * @property bool $side
  * @property int $parent_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -40,7 +40,7 @@ class WdbMenu extends Eloquent
 
 	protected $casts = [
 		'order' => 'int',
-		'side' => 'int',
+		'side' => 'bool',
 		'parent_id' => 'int'
 	];
 

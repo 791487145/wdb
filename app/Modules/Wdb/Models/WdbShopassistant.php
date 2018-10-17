@@ -50,6 +50,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShopassistant whereSignature($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShopassistant whereTotalsales($value)
  * @mixin \Eloquent
+ * @property string|null $qr_code 二维码
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShopassistant whereQrCode($value)
  */
 class WdbShopassistant extends Eloquent
 {

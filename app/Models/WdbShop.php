@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 25 Sep 2018 07:56:22 +0000.
+ * Date: Wed, 17 Oct 2018 09:13:44 +0000.
  */
 
 namespace App\Models;
@@ -23,7 +23,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $district
  * @property string $instro
  * @property string $logo
- * @property int $status
+ * @property bool $status
  * @property int $is_recommend
  * @property string $bg_img
  * @property \Carbon\Carbon $created_at
@@ -31,9 +31,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $good_comment
  * @property int $sale_num
  * @property float $sale_money
+ * @property int $company_id
  * @property string $seo
+ * @property string $qr_code
  * @package App\Models
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereBgImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereDescribe($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereDistrict($value)
@@ -47,6 +50,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereLogo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereLonLati($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereQrCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereSaleMoney($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereSaleNum($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShop whereSeo($value)
@@ -63,10 +67,11 @@ class WdbShop extends Eloquent
 	protected $casts = [
 		'level' => 'int',
 		'shop_no' => 'int',
-		'status' => 'int',
+		'status' => 'bool',
 		'is_recommend' => 'int',
 		'sale_num' => 'int',
-		'sale_money' => 'float'
+		'sale_money' => 'float',
+		'company_id' => 'int'
 	];
 
 	protected $fillable = [
@@ -86,6 +91,8 @@ class WdbShop extends Eloquent
 		'good_comment',
 		'sale_num',
 		'sale_money',
-		'seo'
+		'company_id',
+		'seo',
+		'qr_code'
 	];
 }

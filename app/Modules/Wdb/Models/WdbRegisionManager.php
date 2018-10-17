@@ -27,6 +27,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbRegisionManager whereMobile($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\Wdb\Models\WdbShop[] $shops
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\Wdb\Models\WdbUser[] $user
+ * @property int|null $company_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbRegisionManager whereCompanyId($value)
  */
 class WdbRegisionManager extends Eloquent
 {

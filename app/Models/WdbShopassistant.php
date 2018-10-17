@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 25 Sep 2018 07:56:22 +0000.
+ * Date: Wed, 17 Oct 2018 09:13:44 +0000.
  */
 
 namespace App\Models;
@@ -15,10 +15,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $assistantid
  * @property string $jobnumber
  * @property string $assistantname
- * @property int $assistantsex
+ * @property bool $assistantsex
  * @property int $assistantage
  * @property string $assistantphone
- * @property int $ifonjob
+ * @property bool $ifonjob
  * @property int $departmentid
  * @property string $roleid
  * @property \Carbon\Carbon $addtime
@@ -30,6 +30,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $membernum
  * @property float $totalsales
  * @property string $nickname
+ * @property string $qr_code
  * @package App\Models
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereAddtime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereAssistantage($value)
@@ -45,6 +46,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereMembernum($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereNickname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereOpenid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereQrCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereRoleid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereShopid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbShopassistant whereSignature($value)
@@ -58,9 +60,9 @@ class WdbShopassistant extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'assistantsex' => 'int',
+		'assistantsex' => 'bool',
 		'assistantage' => 'int',
-		'ifonjob' => 'int',
+		'ifonjob' => 'bool',
 		'departmentid' => 'int',
 		'shopid' => 'int',
 		'fansnum' => 'int',
@@ -89,6 +91,7 @@ class WdbShopassistant extends Eloquent
 		'fansnum',
 		'membernum',
 		'totalsales',
-		'nickname'
+		'nickname',
+		'qr_code'
 	];
 }

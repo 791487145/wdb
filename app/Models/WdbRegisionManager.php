@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 25 Sep 2018 07:56:22 +0000.
+ * Date: Wed, 17 Oct 2018 09:13:44 +0000.
  */
 
 namespace App\Models;
@@ -18,7 +18,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $describe
+ * @property int $company_id
  * @package App\Models
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbRegisionManager whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbRegisionManager whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbRegisionManager whereDescribe($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbRegisionManager whereId($value)
@@ -32,9 +34,14 @@ class WdbRegisionManager extends Eloquent
 	protected $table = 'wdb_regision_manager';
 	protected $primaryKey = 'id';
 
+	protected $casts = [
+		'company_id' => 'int'
+	];
+
 	protected $fillable = [
 		'mobile',
 		'name',
-		'describe'
+		'describe',
+		'company_id'
 	];
 }

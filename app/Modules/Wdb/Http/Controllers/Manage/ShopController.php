@@ -5,6 +5,7 @@ namespace App\Modules\Wdb\Http\Controllers\Manage;
 use App\Modules\Wdb\Http\Controllers\WdbController;
 use App\Modules\Wdb\Models\ConfCity;
 use App\Modules\Wdb\Models\WdbGood;
+use App\Modules\Wdb\Models\WdbGoodsCategory;
 use App\Modules\Wdb\Models\WdbMenu;
 use App\Modules\Wdb\Models\WdbRegisionManageShop;
 use App\Modules\Wdb\Models\WdbShop;
@@ -303,6 +304,27 @@ class ShopController extends WdbController
          }
 
          return $this->formatResponse('添加成功');
+     }
+
+    /**
+     * 门店商品列表
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+     public function shopGoodCreate(Request $request)
+     {
+         $goods = WdbGood::whereStatus(WdbGood::STATUS_UP)->forPage($request->post('page',$this->pub),$request->post('limit',$this->limit))->select('id','name','price','thumbnail_pic','goods_no','category_id')->get();
+         foreach ($goods as $good){
+             $good->category_name = WdbGoodsCategory::whereId($good->category_id)->value('name');
+         }
+         $shop_good_ids = WdbShopGood::whereShopId($request->post('shop_id'))->pluck('good_id');
+
+         $data = array(
+             'count' => count($goods),
+             'goods' => $goods,
+             'shop_good_ids' => $shop_good_ids
+         );
+         return $this->formatResponse('获取成功',$this->successStatus,$data);
      }
 
     public function aaa(Request $request)

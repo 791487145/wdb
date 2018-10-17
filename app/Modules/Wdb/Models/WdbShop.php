@@ -57,6 +57,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\Wdb\Models\WdbUser[] $shop_user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShop whereSeo($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\Wdb\Models\WdbShopassistant[] $shop_assistants
+ * @property int|null $company_id 企业id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShop whereCompanyId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\Wdb\Models\Company[] $company
+ * @property string|null $qr_code 二维码
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShop whereQrCode($value)
  */
 class WdbShop extends Eloquent
 {
@@ -103,10 +108,16 @@ class WdbShop extends Eloquent
         return $this->belongsToMany(WdbUser::class,'wdb_user_shop','shop_id','user_id');
     }
 
-    //区域经理
+    //区域名称
     public function shop_registion_manage()
     {
         return $this->belongsToMany(WdbRegisionManager::class,'wdb_regision_manage_shop','shop_id','regision_manage_id');
+    }
+
+    //属于哪个公司
+    public function company()
+    {
+        return $this->belongsToMany(Company::class,'company_wdb_shop','shop_id','company_id');
     }
 
     //添加店长

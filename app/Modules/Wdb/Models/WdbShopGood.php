@@ -24,6 +24,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShopGood whereShopId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShopGood whereStatus($value)
  * @mixin \Eloquent
+ * @property int $sale_num
+ * @property int|null $is_recomment 1tuijian2不推荐
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShopGood whereIsRecomment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbShopGood whereSaleNum($value)
  */
 class WdbShopGood extends Eloquent
 {

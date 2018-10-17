@@ -8,10 +8,13 @@ use Illuminate\Http\Response;
 class ApiController extends BaiscController
 {
     public $limit = 10;
+    public $page = 1;
 
     public $admin = 1;
 
     public $pub = 0;
+
+    public $company_id;
 
     public $successStatus = 200;
     public $errorStatus = 201;
