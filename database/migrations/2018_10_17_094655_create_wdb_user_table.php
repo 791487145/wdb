@@ -21,7 +21,7 @@ class CreateWdbUserTable extends Migration {
 			$table->string('work_no', 40)->comment('工号');
 			$table->integer('department_id')->nullable()->comment('部门');
 			$table->integer('shop_id')->nullable()->comment('店铺');
-			$table->string('password');
+			$table->string('password', 191);
 			$table->integer('sex')->nullable()->default(1)->comment('1:男0女');
 			$table->integer('status')->nullable()->default(1)->comment('1正常；2禁止');
 			$table->timestamps();

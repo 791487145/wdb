@@ -18,8 +18,8 @@ class CreateWdbGoodsTable extends Migration {
 			$table->string('name', 150)->nullable()->comment('商品名');
 			$table->string('goods_no', 50)->nullable()->comment('编号');
 			$table->integer('sale_num')->default(0)->comment('总销量');
-			$table->string('goods_describe')->nullable()->comment('商品描述、卖点');
-			$table->string('thumbnail_pic')->nullable()->comment('缩略图');
+			$table->string('goods_describe', 191)->nullable()->comment('商品描述、卖点');
+			$table->string('thumbnail_pic', 191)->nullable()->comment('缩略图');
 			$table->integer('group_id')->nullable()->comment('分组');
 			$table->integer('category_id')->nullable()->comment('分类');
 			$table->integer('data_time')->nullable()->comment('上架时间');

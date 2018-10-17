@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateWdbRegisionManagerTable extends Migration {
+class CreateWdbTagTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,12 @@ class CreateWdbRegisionManagerTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('wdb_regision_manager', function(Blueprint $table)
+		Schema::create('wdb_tag', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('mobile', 50)->nullable();
-			$table->string('name', 30)->nullable();
+			$table->string('name', 40)->nullable();
+			$table->integer('shopassistant_id')->nullable();
 			$table->timestamps();
-			$table->string('describe')->nullable();
 		});
 	}
 
@@ -30,7 +29,7 @@ class CreateWdbRegisionManagerTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('wdb_regision_manager');
+		Schema::drop('wdb_tag');
 	}
 
 }
