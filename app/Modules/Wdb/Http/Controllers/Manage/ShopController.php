@@ -49,7 +49,7 @@ class ShopController extends WdbController
             $shop->shop_manager = $shop->shop_user()->first()->name;
             $shop->shop_regision_manage_name = $shop->shop_registion_manage()->first()->name;
             $district = json_decode($shop->district,true);
-            $shop->district = $district['district'];
+            $shop->district = ConfCity::getName($district['province']).ConfCity::getName($district['city']).ConfCity::getName($district['region']).$district['address'];
             $shop->status_name = WdbShop::statusCN($shop->status);
         }
         $count = count($shops);

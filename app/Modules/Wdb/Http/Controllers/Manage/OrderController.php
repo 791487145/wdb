@@ -36,7 +36,13 @@ class OrderController extends WdbController
         }
 
         $orders = new WdbOrder();
-        $orders = $orders->whereIn('shop_id',$shop_ids);
+
+        $shop_id = $request->post('shop_id',$shop_ids[0]);
+        if(!in_array($shop_id,$shop_ids)){
+            return $this->formatResponse('门店参数不正确',$this->errorStatus);
+        }
+
+        $orders = $orders->whereShopId($shop_id);
 
         $order_no = $request->post('order_no','');
         if(!empty($order_no)){
@@ -83,7 +89,8 @@ class OrderController extends WdbController
 
         $data = array(
             'orders' => $orders,
-            'count' => count($orders)
+            'count' => count($orders),
+            'shops' => $shops
         );
         return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
@@ -134,6 +141,12 @@ class OrderController extends WdbController
             $order->assignOrderLog($order_log->id);
         });
         return $this->formatResponse('操作成功');
+    }
+
+    public function orderEvaluate(Request $request)
+    {
+        $order_no = $request->post('order_no');
+        $order = WdbOrder::whereOrderNo($order_no)->first();
     }
 
 

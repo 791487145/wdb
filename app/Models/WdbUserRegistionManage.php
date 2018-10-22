@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 17 Oct 2018 09:13:44 +0000.
+ * Date: Thu, 18 Oct 2018 06:54:07 +0000.
  */
 
 namespace App\Models;

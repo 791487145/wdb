@@ -92,9 +92,10 @@ Route::prefix('wdb/manage')->group(function () {
             Route::post('orders', 'OrderController@ordersList')->name('orders');
             Route::post('orders/info', 'OrderController@ordersInfo')->name('ordersInfo');
             Route::post('orders/shipments', 'OrderController@orderShipments')->name('orderShipments');
+            Route::post('orders/evaluate', 'OrderController@orderEvaluate')->name('orderEvaluate');
 
             Route::post('refunds', 'RefundController@refundsList')->name('refunds');
-            Route::post('refunds/info', 'RefundController@ordersInfo')->name('ordersInfo');
+            Route::post('refunds/info', 'RefundController@refundsInfo')->name('refundsInfo');
             Route::post('refunds/shipments', 'RefundController@orderShipments')->name('orderShipments');
 
             Route::post('aaa', 'ShopController@aaa')->name('aaa');

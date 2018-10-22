@@ -13,6 +13,7 @@ use App\Modules\Wdb\Models\WdbMenu;
 use App\Modules\Wdb\Models\WdbOrder;
 use App\Modules\Wdb\Models\WdbOrderLog;
 use App\Modules\Wdb\Models\WdbOrderRefund;
+use App\Modules\Wdb\Models\WdbOrderRefundLog;
 use App\Modules\Wdb\Models\WdbRegisionManageShop;
 use App\Modules\Wdb\Models\WdbShop;
 use App\Modules\Wdb\Models\WdbUserShop;
@@ -24,7 +25,11 @@ use Excel;
 
 class RefundController extends WdbController
 {
-
+    /**
+     * 退款列表
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function refundsList(Request $request)
     {
         $refund_ids = CompanyWdbOrderRefund::whereCompanyId($this->company_id)->pluck('order_refund_id');
@@ -75,9 +80,48 @@ class RefundController extends WdbController
             }
             $refund->good_names = $good_names;
             $refund->order_amount = $order->actual_payment;
+            $refund->status_name = WdbOrderRefund::statusCN($refund->status);
         }
+
+        $data = array(
+            'refunds' => $refunds,
+            'count' => count($refunds)
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
+    /**
+     * 退款详情
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function refundsInfo(Request $request)
+    {
+        $refund_id = $request->post('refund_id');
+        $refund = WdbOrderRefund::whereId($refund_id)->first();
+        $refund->status_name = WdbOrderRefund::statusCN($refund->status);
+
+        $order = WdbOrder::whereOrderNo($refund->order_no)->select('id','order_no','member_name','price','order_category','consignee_info','physical_way','pay_way','comment','shop_id')->first();
+        if($order->physical_way == WdbOrder::PHYSICAL_WAY_ZITI){
+            $shop_address = WdbShop::whereId($order->shop_id)->value('district');
+            $district = json_decode($shop_address,true);
+            $order->consignee_info = ConfCity::getName($district['province']).ConfCity::getName($district['city']).ConfCity::getName($district['region']).$district['address'];
+        }
+        $order->pay_way_name = WdbOrder::statusCN($order->pay_way,'pay_way');
+        $order->physical_way_name = WdbOrder::statusCN($order->physical_way,'physical_way');
+        $order->order_category_name = WdbOrder::statusCN($order->order_category,'order_category');
+
+        $order_goods = $order->order_detail()->get();
+        $refund_logs = WdbOrderRefundLog::whereRefundNo($refund->refund_no)->orderBy('id','asc')->get();
+
+        $data = array(
+            'order' => $order,
+            'order_goods' => $order_goods,
+            'refund_logs' => $refund_logs,
+            'refund' => $refund
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
+    }
 
 
 

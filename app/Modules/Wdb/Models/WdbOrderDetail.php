@@ -34,27 +34,31 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbOrderDetail whereUnitPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbOrderDetail whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property float $vip_price
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Wdb\Models\WdbOrderDetail whereVipPrice($value)
  */
 class WdbOrderDetail extends Eloquent
 {
 	protected $table = 'wdb_order_detail';
 	protected $primaryKey = 'id';
 
-	protected $casts = [
-		'goods_id' => 'int',
-		'goods_ext_id' => 'int',
-		'unit_price' => 'float',
-		'number' => 'int',
-		'amount' => 'float'
-	];
+    protected $casts = [
+        'goods_id' => 'int',
+        'goods_ext_id' => 'int',
+        'unit_price' => 'float',
+        'vip_price' => 'float',
+        'number' => 'int',
+        'amount' => 'float'
+    ];
 
-	protected $fillable = [
-		'order_sn',
-		'goods_id',
-		'goods_ext_id',
-		'goods_detail',
-		'unit_price',
-		'number',
-		'amount'
-	];
+    protected $fillable = [
+        'order_sn',
+        'goods_id',
+        'goods_ext_id',
+        'goods_detail',
+        'unit_price',
+        'vip_price',
+        'number',
+        'amount'
+    ];
 }

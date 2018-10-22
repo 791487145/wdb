@@ -43,6 +43,11 @@ class WdbOrderRefund extends Eloquent
 	protected $table = 'wdb_order_refund';
 	protected $primaryKey = 'id';
 
+	const STATUS_APPLY = 1;
+	const STATUS_SEND = 2;
+	const STATUS_REFUSE = 3;
+	const STATUS_FINISH = 4;
+
 	protected $casts = [
 		'member_id' => 'int',
 		'refund_way' => 'int',
@@ -62,4 +67,16 @@ class WdbOrderRefund extends Eloquent
 		'refund_file',
 		'status'
 	];
+
+	//状态展示
+	static function statusCN($status)
+    {
+        $param = array(
+            self::STATUS_APPLY => '申请中',
+            self::STATUS_SEND => '配送中',
+            self::STATUS_REFUSE => '申请被拒绝',
+            self::STATUS_FINISH => '已完成'
+        );
+        return $param[status];
+    }
 }

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 17 Oct 2018 09:13:44 +0000.
+ * Date: Thu, 18 Oct 2018 06:54:06 +0000.
  */
 
 namespace App\Models;
@@ -18,6 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $goods_ext_id
  * @property string $goods_detail
  * @property float $unit_price
+ * @property float $vip_price
  * @property int $number
  * @property float $amount
  * @property \Carbon\Carbon $created_at
@@ -33,6 +34,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbOrderDetail whereOrderSn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbOrderDetail whereUnitPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbOrderDetail whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WdbOrderDetail whereVipPrice($value)
  * @mixin \Eloquent
  */
 class WdbOrderDetail extends Eloquent
@@ -44,6 +46,7 @@ class WdbOrderDetail extends Eloquent
 		'goods_id' => 'int',
 		'goods_ext_id' => 'int',
 		'unit_price' => 'float',
+		'vip_price' => 'float',
 		'number' => 'int',
 		'amount' => 'float'
 	];
@@ -54,6 +57,7 @@ class WdbOrderDetail extends Eloquent
 		'goods_ext_id',
 		'goods_detail',
 		'unit_price',
+		'vip_price',
 		'number',
 		'amount'
 	];
